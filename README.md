@@ -3,6 +3,7 @@
 
 Array.sortBy is a prototype function that allows sorting arrays of objects by a given key, whether it is a root key or a child key of the object.
 
+![Screenshot](http://github.com/eneko/Array.sortBy/raw/master/screenshot.jpg)
 
 How to use
 ----------
