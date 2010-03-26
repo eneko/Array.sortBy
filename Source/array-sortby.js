@@ -4,7 +4,7 @@ script: array-sortby.js
 version: 1.0
 description: Array.sortBy is a prototype function to sort arrays of objects by a given key.
 license: MIT-style
-download: http://mootools.net/forge/p/Array.sortBy
+download: http://mootools.net/forge/p/array_sortby
 source: http://github.com/eneko/Array.sortBy
 
 authors:
