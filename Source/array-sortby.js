@@ -19,16 +19,39 @@ requires:
 ...
 */
 
-Array.prototype.sortBy = function(keys, options) {
-	function valueOf(object, keys) {
+Array.prototype.sortBy = function() {
+
+	var keyPaths = [];
+
+	function saveKeyPath(path) {
+		if (path[0] !== '+' && path[0] !== '-') path.splice(0, 0, '+');
+		keyPaths.push(path);
+	}
+
+	$A(arguments).each(function(argument) {
+		switch ($type(argument)) {
+			case "array": saveKeyPath(argument); break;
+			case "string": saveKeyPath(argument.match(/(([\+\-]+)|(\w+[\w\-\+\s]*))/g)); break;
+		}
+	});
+
+	function valueOf(object, keyPath) {
 		var ptr = object;
-		$splat(keys || '').each(function(key) { ptr = ptr[key] });
+		keyPath.each(function(key) { ptr = ptr[key] });
 		return ptr;
 	}
+
 	var comparer = function(a, b) {
-		aVal = valueOf(a, keys);
-		bVal = valueOf(b, keys);
-		return (aVal < bVal? -1 : aVal > bVal? 1 : 0) * ((options && options.descending === true)? -1:1);
+		for (var i = 0, l = keyPaths.length; i < l; i++) {
+			var sign = 44-keyPaths[i][0].charCodeAt(0); // (keyPaths[0]+'1').toInt()
+			var path = keyPaths[i].slice(1);
+			aVal = valueOf(a, path);
+			bVal = valueOf(b, path);
+			if (aVal < bVal) return 0-sign;
+			if (aVal > bVal) return sign;
+		}
+		return 0;
 	};
+
 	return this.sort(comparer);
 }
