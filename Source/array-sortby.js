@@ -1,14 +1,18 @@
 ﻿/*
 ---
 script: array-sortby.js
-version: 1.2
+version: 1.2.1
 description: Array.sortBy is a prototype function to sort arrays of objects by a given key.
 license: MIT-style
 download: http://mootools.net/forge/p/array_sortby
 source: http://github.com/eneko/Array.sortBy
 
 authors:
-- Eneko Alonso: (http://enekoalonso.com)
+- Eneko Alonso: (http://github.com/eneko)
+- Fabio M. Costa: (http://github.com/fabiomcosta)
+
+credits:
+- Olmo Maldonado (key path as string idea)
 
 provides:
 - Array.sortBy
@@ -19,30 +23,23 @@ requires:
 ...
 */
 
-Array.prototype.sortBy = function() {
+(function(){
 
 	var keyPaths = [];
 
-	function saveKeyPath(path) {
-		if (path[0] !== '+' && path[0] !== '-') path.splice(0, 0, '+');
+	var saveKeyPath = function(path) {
+		if (path[0] !== '+' && path[0] !== '-') path.unshift('+');
 		keyPaths.push({
-			sign: 44-path.shift().charCodeAt(0), // (path.shift()+'1').toInt()
+			sign: 44 - path.shift().charCodeAt(0),
 			path: path
 		});
-	}
+	};
 
-	$A(arguments).each(function(argument) {
-		switch ($type(argument)) {
-			case "array": saveKeyPath(argument); break;
-			case "string": saveKeyPath(argument.match(/(([\+\-]+)|(\w+[\w\-\+\s]*))/g)); break;
-		}
-	});
-
-	function valueOf(object, keyPath) {
+	var valueOf = function(object, path) {
 		var ptr = object;
-		keyPath.each(function(key) { ptr = ptr[key] });
+		path.each(function(key) { ptr = ptr[key] });
 		return ptr;
-	}
+	};
 
 	var comparer = function(a, b) {
 		for (var i = 0, l = keyPaths.length; i < l; i++) {
@@ -54,5 +51,17 @@ Array.prototype.sortBy = function() {
 		return 0;
 	};
 
-	return this.sort(comparer);
-}
+	Array.implement('sortBy', function(){
+
+		keyPaths.empty();
+		Array.each(arguments, function(argument) {
+			switch ($type(argument)) {
+				case "array": saveKeyPath(argument); break;
+				case "string": saveKeyPath(argument.match(/[+-]|[^.]+/g)); break;
+			}
+		});
+
+		return this.sort(comparer);
+	});
+
+})();
