@@ -28,9 +28,8 @@ requires:
 	var keyPaths = [];
 
 	var saveKeyPath = function(path) {
-		if (path[0] !== '+' && path[0] !== '-') path.unshift('+');
 		keyPaths.push({
-			sign: parseInt(path.shift()+1),
+			sign: (path[0] === '+' || path[0] === '-')? parseInt(path.shift()+1) : 1,
 			path: path
 		});
 	};
