@@ -1,7 +1,7 @@
 ﻿/*
 ---
 script: array-sortby.js
-version: 1.2.1
+version: 1.2.2
 description: Array.sortBy is a prototype function to sort arrays of objects by a given key.
 license: MIT-style
 download: http://mootools.net/forge/p/array_sortby
@@ -30,7 +30,7 @@ requires:
 	var saveKeyPath = function(path) {
 		if (path[0] !== '+' && path[0] !== '-') path.unshift('+');
 		keyPaths.push({
-			sign: 44 - path.shift().charCodeAt(0),
+			sign: (path.shift()+'1').toInt(),
 			path: path
 		});
 	};
