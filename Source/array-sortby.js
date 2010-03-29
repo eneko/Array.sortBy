@@ -30,7 +30,7 @@ requires:
 	var saveKeyPath = function(path) {
 		if (path[0] !== '+' && path[0] !== '-') path.unshift('+');
 		keyPaths.push({
-			sign: (path.shift()+'1').toInt(),
+			sign: parseInt(path.shift()+1),
 			path: path
 		});
 	};
@@ -52,7 +52,6 @@ requires:
 	};
 
 	Array.implement('sortBy', function(){
-
 		keyPaths.empty();
 		Array.each(arguments, function(argument) {
 			switch ($type(argument)) {
@@ -60,7 +59,6 @@ requires:
 				case "string": saveKeyPath(argument.match(/[+-]|[^.]+/g)); break;
 			}
 		});
-
 		return this.sort(comparer);
 	});
 
