@@ -4,7 +4,6 @@ script: array-sortby.js
 version: 1.2.2
 description: Array.sortBy is a prototype function to sort arrays of objects by a given key.
 license: MIT-style
-download: http://mootools.net/forge/p/array_sortby
 source: http://github.com/eneko/Array.sortBy
 
 authors:
@@ -16,9 +15,6 @@ credits:
 
 provides:
 - Array.sortBy
-
-requires:
-- core/1.2.4:Array
 
 ...
 */
@@ -36,7 +32,7 @@ requires:
 
 	var valueOf = function(object, path) {
 		var ptr = object;
-		path.each(function(key) { ptr = ptr[key] });
+		for (var i=0,l=path.length; i<l; i++) ptr = ptr[path[i]];
 		return ptr;
 	};
 
@@ -50,15 +46,15 @@ requires:
 		return 0;
 	};
 
-	Array.implement('sortBy', function(){
-		keyPaths.empty();
-		Array.each(arguments, function(argument) {
-			switch ($type(argument)) {
-				case "array": saveKeyPath(argument); break;
-				case "string": saveKeyPath(argument.match(/[+-]|[^.]+/g)); break;
+	Array.prototype.sortBy = function() {
+		keyPaths = [];
+		for (var i=0,l=arguments.length; i<l; i++) {
+			switch (typeof(arguments[i])) {
+				case "object": saveKeyPath(arguments[i]); break;
+				case "string": saveKeyPath(arguments[i].match(/[+-]|[^.]+/g)); break;
 			}
-		});
+		}
 		return this.sort(comparer);
-	});
+	};
 
 })();
