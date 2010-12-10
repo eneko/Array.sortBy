@@ -1,7 +1,7 @@
 ﻿/*
 ---
 script: array-sortby.js
-version: 1.2.2
+version: 1.3.0
 description: Array.sortBy is a prototype function to sort arrays of objects by a given key.
 license: MIT-style
 download: http://mootools.net/forge/p/array_sortby
@@ -18,7 +18,7 @@ provides:
 - Array.sortBy
 
 requires:
-- core/1.2.4:Array
+- core/1.3.0:Array
 
 ...
 */
@@ -53,7 +53,7 @@ requires:
 	Array.implement('sortBy', function(){
 		keyPaths.empty();
 		Array.each(arguments, function(argument) {
-			switch ($type(argument)) {
+			switch (typeOf(argument)) {
 				case "array": saveKeyPath(argument); break;
 				case "string": saveKeyPath(argument.match(/[+-]|[^.]+/g)); break;
 			}
