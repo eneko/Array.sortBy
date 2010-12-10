@@ -1,0 +1,24 @@
+﻿<html>
+<head>
+	<title>Array.sortBy Test</title>
+</head>
+<body>
+	<script type="text/javascript" src="../Source/array-sortby.js"></script>
+	<script type="text/javascript">
+		var data = [
+			{ name: { first: 'Josh', last: 'Jones' }, age: 30 },
+			{ name: { first: 'Carlos', last: 'Jacques' }, age: 19 },
+			{ name: { first: 'Carlos', last: 'Dante' }, age: 23 },
+			{ name: { first: 'Tim', last: 'Marley' }, age: 9 },
+			{ name: { first: 'Carlos', last: 'Smith' }, age: 27 },
+			{ name: { first: 'Bob', last: 'Smith' }, age: 30 }
+		];
+
+		console.log(data.map(function(item) { return item.name.first }));
+		console.log(data.sortBy('name.first', 'age').map(function(item) { return item.name.first + ' ' + item.name.last + '(' + item.age + ')' }));
+		console.log(data.sortBy('name.first', '-age').map(function(item) { return item.name.first + ' ' + item.name.last + '(' + item.age + ')' }));
+		console.log(data.sortBy('name.first', 'name.last').map(function(item) { return item.name.first + ' ' + item.name.last + '(' + item.age + ')' }));
+		console.log(data.sortBy('name.first', '-name.last').map(function(item) { return item.name.first + ' ' + item.name.last + '(' + item.age + ')' }));
+	</script>
+</body>
+</html>
